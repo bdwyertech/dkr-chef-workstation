@@ -16,3 +16,14 @@ LABEL org.opencontainers.image.title="bfscloud/chef-workstation" \
       org.label-schema.vcs-url="https://github.com/broadridge/dkr-chef-workstation.git"\
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE
+
+RUN useradd chef -r -m -d /home/chef \
+    && mkdir /chef \
+    && chown chef:chef /chef
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+USER chef
+WORKDIR /chef
+ENTRYPOINT ["docker-entrypoint.sh"]
+CMD ["kitchen"]
