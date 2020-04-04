@@ -19,5 +19,6 @@ case "$1" in
 	test ) kitchen "$@";;
 	verify ) kitchen "$@";;
 	version ) kitchen "$@";;
+	-* ) kitchen "$@";;
 	* )	exec "$@";;
 esac
