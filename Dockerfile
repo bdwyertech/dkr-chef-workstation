@@ -21,6 +21,8 @@ RUN useradd chef -r -m -d /home/chef \
     && mkdir /chef \
     && chown chef:chef /chef
 
+COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
+
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 USER chef
