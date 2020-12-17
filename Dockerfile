@@ -1,4 +1,4 @@
-FROM chef/chefworkstation:latest
+FROM chef/chefworkstation:20.12.205
 
 ARG BUILD_DATE
 ARG VCS_REF
