@@ -1,4 +1,4 @@
-FROM chef/chefworkstation:21.1.222
+FROM chef/chefworkstation:stable
 
 ARG BUILD_DATE
 ARG VCS_REF
