@@ -16,10 +16,9 @@ LABEL org.opencontainers.image.title="bfscloud/chef-workstation" \
       org.label-schema.vcs-url="https://github.com/broadridge/dkr-chef-workstation.git"\
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE \
-      org.tooling.user=chef \
-      org.tooling.uid=64242
+      org.tooling.user=chef
 
-RUN useradd chef --uid 64242 -r -m -d /home/chef \
+RUN useradd chef -r -m -d /home/chef \
     && mkdir /chef \
     && chown chef:chef /chef
 
