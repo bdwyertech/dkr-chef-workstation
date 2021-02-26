@@ -9,6 +9,7 @@ import (
 func main() {
 	runCommand("chown --silent chef:chef /chef/")
 	runCommand("chown --silent -R chef /chef/.kitchen/ /chef/Berksfile /chef/Berksfile.lock")
+	runCommand("find /chef/ ( ! -gid 1000 -or ( ! -perm -o=r ) ) -exec chgrp 1000 {} ; -exec chmod g+r {} ;")
 }
 
 func runCommand(command string) error {
