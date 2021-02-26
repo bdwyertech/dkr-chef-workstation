@@ -1,6 +1,7 @@
 package main
 
 import (
+	"log"
 	"os"
 	"os/exec"
 	"strings"
@@ -23,5 +24,6 @@ func runCommand(command string) error {
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	cmd.Stdin = os.Stdin
+	log.Println(cmd.String())
 	return cmd.Run()
 }
