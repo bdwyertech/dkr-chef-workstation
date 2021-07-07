@@ -1,11 +1,11 @@
-FROM chef/chefworkstation:21.6.467
+FROM chef/chefworkstation:21.7.524
 FROM golang:1.16-alpine as helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" .
 
-FROM chef/chefworkstation:21.6.467
+FROM chef/chefworkstation:21.7.524
 
 ARG BUILD_DATE
 ARG VCS_REF
@@ -20,7 +20,7 @@ LABEL org.opencontainers.image.title="bfscloud/chef-workstation" \
       org.label-schema.name="bfscloud/chef-workstation" \
       org.label-schema.description="Infrastructure as code development & testing via Chef Workstation" \
       org.label-schema.url="https://hub.docker.com/r/bfscloud/chef-workstation" \
-      org.label-schema.vcs-url="https://github.com/broadridge/dkr-chef-workstation.git"\
+      org.label-schema.vcs-url="https://github.com/broadridge/dkr-chef-workstation.git" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.build-date=$BUILD_DATE \
       org.tooling.user=chef \
