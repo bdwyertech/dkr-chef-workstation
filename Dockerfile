@@ -1,11 +1,11 @@
-FROM chef/chefworkstation:21.7.524
+FROM chef/chefworkstation:stable
 FROM golang:1.16-alpine as helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" .
 
-FROM chef/chefworkstation:21.7.524
+FROM chef/chefworkstation:stable
 
 ARG BUILD_DATE
 ARG VCS_REF
