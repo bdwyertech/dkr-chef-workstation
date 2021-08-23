@@ -1,5 +1,5 @@
 FROM chef/chefworkstation:stable
-FROM golang:1.16-alpine as helper
+FROM golang:1.17-alpine as helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
