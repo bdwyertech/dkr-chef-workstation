@@ -5,7 +5,7 @@ COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
 RUN CGO_ENABLED=0 go build -ldflags="-s -w" .
 
-FROM chef/chefworkstation:stable
+FROM chef/chefworkstation:21.10.640
 
 ARG BUILD_DATE
 ARG VCS_REF
