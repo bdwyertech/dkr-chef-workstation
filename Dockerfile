@@ -33,7 +33,7 @@ RUN useradd chef --uid 1000 -m -d /home/chef \
     && mkdir /chef \
     && chown chef:chef /chef \
     && chmod 4755 /usr/local/bin/fix-permissions \
-    && CHEF_LICENSE=accept-no-persist chef exec gem install kitchen-ansible
+    && su - chef -c "CHEF_LICENSE=accept-no-persist chef exec gem install kitchen-ansible"
 
 COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 
