@@ -7,7 +7,7 @@ if [ -n "$CHEFWKSTN_FIX_UID" ] && [ ! -f '/tmp/.fixed-chef-perms' ]; then
 		fix-permissions id "$(id -u)"
 	fi
 	if [ -n "$PROJECT_SOURCE" ]; then
-		git config --global --add safe.directory "$PROJECT_SOURCE"
+		git config --file /home/chef/.gitconfig --add safe.directory "$PROJECT_SOURCE"
 	fi
 	touch /tmp/.fixed-chef-perms
 fi
