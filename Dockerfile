@@ -1,5 +1,5 @@
 FROM chef/chefworkstation:stable
-FROM golang:1.17-alpine as helper
+FROM golang:1.19-alpine as helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
@@ -29,7 +29,7 @@ LABEL org.opencontainers.image.title="bfscloud/chef-workstation" \
 
 COPY --from=helper /go/src/fix-permissions /usr/local/bin/
 
-RUN useradd chef --uid 1000 -m -d /home/chef \
+RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && mkdir /chef \
     && chown chef:chef /chef \
     && chmod 4755 /usr/local/bin/fix-permissions \

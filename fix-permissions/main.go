@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 	"os/exec"
@@ -8,9 +9,15 @@ import (
 )
 
 func main() {
-	runCommand("chown --silent chef:chef /chef/")
-	runCommand("chown --silent -R chef /chef/.kitchen/ /chef/Berksfile /chef/Berksfile.lock")
-	runCommand("find /chef/ ( ! -gid 1000 -or ( ! -perm -o=r ) ) -exec chgrp 1000 {} ; -exec chmod g+r {} ;")
+	if len(os.Args) > 2 && strings.EqualFold(os.Args[1], "id") {
+		runCommand(fmt.Sprintf("groupmod chef --gid %s", os.Args[2]))
+		runCommand(fmt.Sprintf("usermod chef --uid %[1]s --gid %[1]s --groups root", os.Args[2]))
+		runCommand("chown --silent -R chef:chef /home/chef/")
+	} else {
+		runCommand("chown --silent chef:chef /chef/")
+		runCommand("chown --silent -R chef /chef/.kitchen/ /chef/Berksfile /chef/Berksfile.lock")
+		runCommand("find /chef/ ( ! -gid 1000 -or ( ! -perm -o=r ) ) -exec chgrp 1000 {} ; -exec chmod g+r {} ;")
+	}
 }
 
 func runCommand(command string) error {
