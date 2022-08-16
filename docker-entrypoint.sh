@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/bash -e
 # Magical Entrypoint
 # Brian Dwyer - Broadridge Financial Solutions
 
