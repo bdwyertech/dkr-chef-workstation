@@ -29,6 +29,11 @@ LABEL org.opencontainers.image.title="bfscloud/chef-workstation" \
 
 COPY --from=helper /go/src/fix-permissions /usr/local/bin/
 
+# Add support for aws_ssh_key_type (https://github.com/test-kitchen/kitchen-ec2/pull/583)
+COPY kitchen-ec2.patch /tmp/kitchen-ec2.patch
+RUN patch -i /tmp/kitchen-ec2.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/kitchen-ec2-*/lib/kitchen/driver/ec2.rb) \
+    && rm /tmp/kitchen-ec2.patch
+
 RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && mkdir /chef \
     && chown chef:chef /chef \
