@@ -46,8 +46,8 @@ COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 # Ansible
-ARG ansible
-RUN if [ "$ansible" = "true" ] ; then \
+ARG ANSIBLE
+RUN if [ "$ANSIBLE" = "true" ] ; then \
     sed -i 's|http://.*.ubuntu.com|https://mirror.us.leaseweb.net|g' /etc/apt/sources.list \
     && apt-get update && apt-get install -y ansible ncdu \
     && apt-get autoremove -y \
