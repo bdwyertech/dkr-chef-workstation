@@ -62,7 +62,7 @@ jobs:
             latest=true
             prefix=${{ matrix.prefix }},onlatest=true
           tags: |
-            type=sha,enable=true,priority=100,prefix=${{ steps.date.outputs.date }}--,suffix=,format=short
+            type=sha,enable=true,priority=100,prefix=${{ matrix.prefix }}${{ steps.date.outputs.date }}--,suffix=,format=short
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
