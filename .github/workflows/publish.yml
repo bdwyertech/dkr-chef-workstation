@@ -40,7 +40,7 @@ jobs:
 
       - name: Get current date
         id: date
-        run: echo "{date}={$(date +'%Y-%m-%d')}" >> $GITHUB_OUTPUT
+        run: echo "date=$(date +'%Y-%m-%d')" >> $GITHUB_OUTPUT
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
