@@ -60,7 +60,7 @@ jobs:
             org.opencontainers.image.title=${{ env.DHUB_IMAGE_NAME }}
           flavor: |
             latest=true
-            prefix=${{ matrix.prefix }}
+            prefix=${{ matrix.prefix }},onlatest=true
           tags: |
             type=sha,enable=true,priority=100,prefix=${{ steps.date.outputs.date }}--,suffix=,format=short
 
