@@ -38,7 +38,8 @@ RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && mkdir /chef \
     && chown chef:chef /chef \
     && chmod 4755 /usr/local/bin/fix-permissions \
-    && su - chef -c "CHEF_LICENSE=accept-no-persist chef exec gem install kitchen-ansible"
+    && su - chef -c "CHEF_LICENSE=accept-no-persist chef exec gem install kitchen-ansible" \
+    && mv /home/chef/.chef/ /home/chef/.chefdk/
 
 COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 
@@ -46,5 +47,6 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 USER chef
 WORKDIR /chef
+ENV PATH='/opt/chef-workstation/bin:/opt/chef-workstation/embedded/bin:/home/chef/.chefdk/gem/ruby/3.0.0/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["kitchen"]
