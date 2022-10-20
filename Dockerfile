@@ -34,15 +34,27 @@ COPY kitchen-ec2.patch /tmp/kitchen-ec2.patch
 RUN patch -i /tmp/kitchen-ec2.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/kitchen-ec2-*/lib/kitchen/driver/ec2.rb) \
     && rm /tmp/kitchen-ec2.patch
 
-RUN CHEF_LICENSE=accept-no-persist chef gem install kitchen-ansible --no-user-install
+RUN CHEF_LICENSE=accept-no-persist chef gem install kitchen-ansible --no-user-install --no-document
 RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && mkdir /chef \
     && chown chef:chef /chef \
     && chmod 4755 /usr/local/bin/fix-permissions
 
+
 COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+# Ansible
+ARG ansible
+RUN if [ "$ansible" = "true" ] ; then \
+    sed -i 's|http://.*.ubuntu.com|https://mirror.us.leaseweb.net|g' /etc/apt/sources.list \
+    && apt-get update && apt-get install -y ansible ncdu \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && CHEF_LICENSE=accept-no-persist chef gem install kitchen-ansible kitchen-ansiblepush --no-user-install --no-document; \
+    fi
 
 USER chef
 WORKDIR /chef
