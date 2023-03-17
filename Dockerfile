@@ -41,7 +41,12 @@ RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && chmod 4755 /usr/local/bin/fix-permissions
 
 # YQ
-RUN (curl -sfL "$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep -o -E "https://.+?_linux_amd64.tar.gz")" | tar zxf - --directory /usr/local/bin)
+ARG TARGETPLATFORM=linux/amd64
+RUN DOCKER_ARCH=$(case ${TARGETPLATFORM} in \
+    "linux/amd64")   echo "amd64" ;; \
+    "linux/arm64")   echo "arm64" ;; \
+    *)               echo "" ;; esac) \
+    && (curl -sfL "$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep -o -E "https://.+?_linux_${DOCKER_ARCH}.tar.gz")" | tar zxf - --directory /usr/local/bin)
 
 COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 
