@@ -1,5 +1,5 @@
 FROM chef/chefworkstation:stable
-FROM golang:1.19-alpine as helper
+FROM golang:1.20-alpine as helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
@@ -40,6 +40,8 @@ RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && chown chef:chef /chef \
     && chmod 4755 /usr/local/bin/fix-permissions
 
+# YQ
+RUN (curl -sfL "$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep -o -E "https://.+?_linux_amd64.tar.gz")" | tar zxf - --directory /usr/local/bin)
 
 COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 
