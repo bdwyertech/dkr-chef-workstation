@@ -46,7 +46,7 @@ RUN DOCKER_ARCH=$(case ${TARGETPLATFORM} in \
     "linux/amd64")   echo "amd64" ;; \
     "linux/arm64")   echo "arm64" ;; \
     *)               echo "" ;; esac) \
-    && (curl -sfL "$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep -o -E "https://.+?_linux_${DOCKER_ARCH}.tar.gz")" | tar zxf - --directory /usr/local/bin)
+    && (curl -sfL "$(curl -Ls https://api.github.com/repos/mikefarah/yq/releases/latest | grep -o -E "https://.+?_linux_${DOCKER_ARCH}" -m 1)" -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq)
 
 COPY --chown=chef:chef rubocop.yml /home/chef/.rubocop.yml
 
