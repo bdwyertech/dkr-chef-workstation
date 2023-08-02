@@ -12,7 +12,7 @@ on:
 
 env:
   DHUB_IMAGE_NAME: bfscloud/chef-workstation
-  GHCR_IMAGE_NAME: ghcr.io/broadridge/chef-workstation
+  GHCR_IMAGE_NAME: ghcr.io/bdwyertech/chef-workstation
 
 jobs:
   build-and-push-image:
