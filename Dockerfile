@@ -38,7 +38,8 @@ RUN CHEF_LICENSE=accept-no-persist chef gem install kitchen-ansible --no-user-in
 RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && mkdir /chef \
     && chown chef:chef /chef \
-    && chmod 4755 /usr/local/bin/fix-permissions
+    && chmod 4755 /usr/local/bin/fix-permissions \
+    && chmod +t /tmp
 
 # YQ
 ARG TARGETPLATFORM=linux/amd64
