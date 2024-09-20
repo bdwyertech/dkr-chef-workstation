@@ -65,6 +65,7 @@ RUN if [ "$ANSIBLE" = "true" ] ; then \
     fi
 
 USER chef
+RUN git config --global --add safe.directory /chef
 WORKDIR /chef
 ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["kitchen"]
