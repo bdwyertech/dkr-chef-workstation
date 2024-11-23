@@ -52,7 +52,11 @@ RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
     && mkdir /chef \
     && chown chef:chef /chef \
     && chmod 4755 /usr/local/bin/fix-permissions \
+    && mkdir /home/chef/.ssh \
+    && chown chef:chef /home/chef/.ssh \
     && chmod +t /tmp
+
+COPY --chown=chef:chef ssh_config /home/chef/.ssh/config
 
 # YQ
 ARG TARGETPLATFORM=linux/amd64

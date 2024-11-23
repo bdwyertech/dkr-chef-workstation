@@ -1,0 +1,3 @@
+# SSH via Systems Manager
+Host i-* mi-*
+    ProxyCommand aws ssm start-session --target %h --document-name AWS-StartSSHSession --parameters 'portNumber=%p'
