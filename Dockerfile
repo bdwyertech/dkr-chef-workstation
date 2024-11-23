@@ -1,5 +1,5 @@
 FROM chef/chefworkstation:stable
-FROM golang:1.20-alpine as helper
+FROM golang:1.23-alpine AS helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
@@ -33,6 +33,19 @@ COPY --from=helper /go/src/fix-permissions /usr/local/bin/
 # COPY kitchen-ec2.patch /tmp/kitchen-ec2.patch
 # RUN patch -i /tmp/kitchen-ec2.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/kitchen-ec2-*/lib/kitchen/driver/ec2.rb) \
 #     && rm /tmp/kitchen-ec2.patch
+
+# AWS CLI & Session Manager
+RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb" \
+    && dpkg -i session-manager-plugin.deb \
+    && rm -f session-manager-plugin.deb \
+    && apt-get update && apt-get install -y unzip \
+    && apt-get autoremove -y \
+    && apt-get autoclean -y \
+    && rm -rf /var/lib/apt/lists/* \
+    && curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip" \
+    && unzip awscliv2.zip \
+    && ./aws/install \
+    && rm -f awscliv2.zip
 
 RUN CHEF_LICENSE=accept-no-persist chef gem install kitchen-ansible --no-user-install --no-document
 RUN useradd chef --uid 1000 -m -d /home/chef --shell /bin/bash \
