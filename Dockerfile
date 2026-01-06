@@ -1,5 +1,5 @@
 FROM chef/chefworkstation:stable
-FROM golang:1.23-alpine AS helper
+FROM golang:1.25-alpine AS helper
 WORKDIR /go/src/
 COPY fix-permissions/ .
 # GOFLAGS=-mod=vendor
@@ -33,6 +33,11 @@ COPY --from=helper /go/src/fix-permissions /usr/local/bin/
 # COPY kitchen-ec2.patch /tmp/kitchen-ec2.patch
 # RUN patch -i /tmp/kitchen-ec2.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/kitchen-ec2-*/lib/kitchen/driver/ec2.rb) \
 #     && rm /tmp/kitchen-ec2.patch
+
+# WinRM Ruby 3.1+ Improvements
+COPY winrm.patch /tmp/winrm.patch
+RUN patch -i /tmp/winrm.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/winrm-*/lib/winrm/shells/base.rb) \
+    && rm /tmp/winrm.patch
 
 # AWS CLI & Session Manager
 RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb" \
