@@ -39,6 +39,11 @@ COPY winrm.patch /tmp/winrm.patch
 RUN patch -i /tmp/winrm.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/winrm-*/lib/winrm/shells/base.rb) \
     && rm /tmp/winrm.patch
 
+# WinRM REXML Deprecation Warning Fix
+# COPY winrm-rexml.patch /tmp/winrm-rexml.patch
+# RUN patch -i /tmp/winrm-rexml.patch $(ls /opt/chef-workstation/embedded/lib/ruby/gems/*/gems/winrm-*/lib/winrm/http/response_handler.rb) \
+#     && rm /tmp/winrm-rexml.patch
+
 # AWS CLI & Session Manager
 RUN curl "https://s3.amazonaws.com/session-manager-downloads/plugin/latest/ubuntu_64bit/session-manager-plugin.deb" -o "session-manager-plugin.deb" \
     && dpkg -i session-manager-plugin.deb \
